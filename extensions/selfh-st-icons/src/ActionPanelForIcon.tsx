@@ -231,7 +231,13 @@ export const ActionPanelForIcon: FC<Props> = ({
         <Action
           title={`Download ${firstFormat.label}`}
           onAction={async () => {
-            if (!defaultUrl || !defaultFilename) return;
+            if (!defaultUrl || !defaultFilename) {
+              await showFailureToast({
+                title: "Download Failed",
+                message: "Icon URL or filename not available"
+              });
+              return;
+            }
             try {
               await downloadIconFile(
                 defaultUrl,
