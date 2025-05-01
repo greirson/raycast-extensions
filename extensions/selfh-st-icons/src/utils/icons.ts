@@ -8,29 +8,6 @@ import path from "path";
 import os from "os";
 
 /**
- * Basic icon information interface
- */
-export interface Icon {
-  /** Unique identifier for the icon */
-  id: string;
-  /** Display name of the icon */
-  name: string;
-  /** URL to the icon resource */
-  url: string;
-  /** Associated tags for searching */
-  tags: string[];
-}
-
-/**
- * Search for icons based on a query string.
- * @returns Promise resolving to array of matching icons
- */
-export async function searchIcons(): Promise<Icon[]> {
-  // TODO: Implement icon search functionality
-  return [];
-}
-
-/**
  * Structure of each entry in the icons.json index file.
  * Represents metadata about an icon in the selfh.st collection.
  */
