@@ -1,4 +1,8 @@
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+
 import { LocalStorage } from "@raycast/api";
+import { showFailureToast } from "@raycast/utils";
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -293,7 +297,12 @@ export async function downloadIconFile(
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new NetworkError(`HTTP ${response.status}: ${response.statusText}`);
+      const error = new NetworkError(`HTTP ${response.status}: ${response.statusText}`);
+      await showFailureToast({
+        title: "Failed to download icon",
+        message: error.message
+      });
+      throw error;
     }
 
     const buffer = await response.arrayBuffer();
@@ -310,9 +319,18 @@ export async function downloadIconFile(
 
     await fs.promises.writeFile(targetPath, Buffer.from(buffer));
   } catch (err) {
-    if (err instanceof IconError) throw err;
-    throw new DownloadError(
-      err instanceof Error ? err.message : "Failed to download icon",
-    );
+    if (err instanceof IconError) {
+      await showFailureToast({
+        title: "Icon Download Failed",
+        message: err.message
+      });
+      throw err;
+    }
+    const error = new DownloadError(err instanceof Error ? err.message : "Failed to download icon");
+    await showFailureToast({
+      title: "Icon Download Failed",
+      message: error.message
+    });
+    throw error;
   }
 }
