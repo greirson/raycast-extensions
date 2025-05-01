@@ -10,6 +10,7 @@ import {
 import { FC, useState, useEffect } from "react";
 import { getIconCdnUrl, IconIndexEntry, downloadIconFile } from "./utils/icons";
 import { KEYBOARD_SHORTCUTS, getPreferences } from "./utils/preferences";
+import { showFailureToast } from "@raycast/utils";
 
 /**
  * Props for the ActionPanelForIcon component
